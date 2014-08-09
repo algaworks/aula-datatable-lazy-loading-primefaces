@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<ui:composition template="/WEB-INF/templates/Layout.xhtml"
+	xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">Consuta de lançamentos</ui:define>
+
+	<ui:define name="corpo">
+		<h1>Consulta de lançamentos</h1>
+		
+		<h:form>
+			<h:panelGrid columns="3">
+				<p:inputText value="#{consultaLancamentosBean.filtro.descricao}" id="descricao"/>
+				
+				<p:commandButton value="Consultar" update="tbl" process="@form" />
+			</h:panelGrid>
+			
+			<p:dataTable value="#{consultaLancamentosBean.model}" lazy="true" 
+				var="lancamento" border="1" cellpadding="2" cellspacing="0"
+				paginator="true" paginatorPosition="bottom" rows="5" id="tbl">
+				
+				<p:column headerText="Pessoa" width="250">
+					<h:outputText value="#{lancamento.pessoa.nome}"/>
+				</p:column>
+				<p:column headerText="Descrição" 
+						sortBy="#{lancamento.descricao}">
+					<h:outputText value="#{lancamento.descricao}"/>
+				</p:column>
+				<p:column headerText="Tipo" width="70">
+					<h:outputText value="#{lancamento.tipo.descricao}"/>
+				</p:column>
+				<p:column headerText="Valor" width="100" style="text-align: right">
+					<h:outputText value="#{lancamento.valor}">
+						<f:convertNumber locale="pt_BR" type="currency" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Vencimento" width="100" style="text-align: center">
+					<h:outputText value="#{lancamento.dataVencimento}">
+						<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				<p:column headerText="Pagamento" width="100" style="text-align: center">
+					<h:outputText value="#{lancamento.dataPagamento}">
+						<f:convertDateTime type="date" locale="pt_BR" timeZone="America/Sao_Paulo" />
+					</h:outputText>
+				</p:column>
+				
+			</p:dataTable>
+		</h:form>
+		
+	</ui:define>
+
+</ui:composition>
